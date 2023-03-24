@@ -1,0 +1,37 @@
+{
+	"contracts": {
+		"MyToken": "./contracts/MyToken.cdc",
+		"FungibleToken": "./contracts/FungibleToken.cdc"
+	  },
+	"networks": {
+		"emulator": "127.0.0.1:3569",
+		"mainnet": "access.mainnet.nodes.onflow.org:9000",
+		"sandboxnet": "access.sandboxnet.nodes.onflow.org:9000",
+		"testnet": "access.devnet.nodes.onflow.org:9000"
+	},
+	"accounts": {
+		"emulator-account": {
+		  "address": "f8d6e0586b0a20c7",
+		  "key": "5112883de06b9576af62b9aafa7ead685fb7fb46c495039b1a83649d61bff97c"
+		},
+		"testnet-account": {
+		  "address": "0x67171824a5bac888",
+		  "key": {
+			"type": "hex",
+			"index": 0,
+			"signatureAlgorithm": "ECDSA_P256",
+			"hashAlgorithm": "SHA3_256",
+			"privateKey": "1812c8a0ec4469a21a7942c108c908e946d3c94ed1db09e1cb1892b9a46d075d"
+		  }
+		}
+	  },
+	  "deployments": {
+		"testnet": {
+		  "testnet-account": [
+			"MyToken",
+            "FungibleToken"
+		  ]
+		}
+	  }
+}
+ 

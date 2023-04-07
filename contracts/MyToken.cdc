@@ -3,6 +3,8 @@ import FungibleToken from "./FungibleToken.cdc"
 pub contract MyToken: FungibleToken {
 
     pub var totalSupply: UFix64
+    //create a array of all the uuid of the vaults
+    pub var vaults: [UInt64]
 
     pub event TokensInitialized(initialSupply: UFix64)
     pub event TokensWithdrawn(amount: UFix64, from: Address?)
@@ -47,7 +49,9 @@ pub contract MyToken: FungibleToken {
     }
 
     pub fun createEmptyVault(): @FungibleToken.Vault{
-        return <- create Vault(balance: 0.0)
+        let instanc <- create Vault(balance: 0.0)
+        self.vaults.append(instanc.uuid)
+        return <- instanc
     }
 
     pub resource Minter{
@@ -67,6 +71,7 @@ pub contract MyToken: FungibleToken {
         self.totalSupply = 0.0
         self.account.save(<- create Minter(), to:/storage/Minter)
         self.account.save(<- create Admin(), to:/storage/Admin)
+        self.vaults = []
     }
 
 }

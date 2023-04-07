@@ -1,7 +1,10 @@
 import MyToken from "../contracts/MyToken.cdc"
 import FungibleToken from "../contracts/FungibleToken.cdc"
+import FlowToken from "../contracts/FlowToken.cdc"
 
-transaction {
+transaction() {
+
+  let result:String
 
   prepare(acct: AuthAccount) {
 
@@ -14,11 +17,16 @@ transaction {
       log("empty vault created")
     } else{
       log("vault allready exist & is properly linked")
-    }    
+    }
+    self.result ="success"
     
   }
 
   execute {
     
+  }
+
+  post {
+    self.result == "success": "success is coming bro"
   }
 }

@@ -1,9 +1,36 @@
-Private Key              1812c8a0ec4469a21a7942c108c908e946d3c94ed1db09e1cb1892b9a46d075d
-Public Key               aaaa7762a5eb7a35711a1c0bdb5bc861e2dc990a488e613aa683c1ad2abe985fe198d2dc86567b1f9470b2635372b07fb4de54b960b30c3956eedc77bbf92d5b 
- 
+flow keys generate --network=testnet
+Private Key              bd17ace56a9b39fb4fc1675e996c3a8dd703640b51e91d9e411fc4712f748ace
+Public Key               
+ 159146bd02011fac8b42d2cdb94e8eb6bb8b1dd534ffee9d13ebb59455b777f1e961f860f828b86605a0b43ff02a42c7b70c0a03137818bccc835c247f1f107e
 
- address : 0x67171824a5bac888
+Create your deployer account by going to here, pasting in your public key from above, and clicking CREATE ACCOUNT:
+https://testnet-faucet.onflow.org/
+
+address: 0xf57795d53d92760e
+
+⛽️ Add your new testnet account to your flow.json by modifying the following lines of code. Paste your address you copied above to where it says "YOUR GENERATED ADDRESS", and paste your private key where it says "YOUR PRIVATE KEY".
+"testnet-account": {
+    "address": "YOUR GENERATED ADDRESS",
 
 
- FungibleToken -> 0x67171824a5bac888 (e08b5d45f976733c9a4252ad8fc7261e738ae7551a1be5dcc47ec21c12a1fcf2) 
-MyToken -> 0x67171824a5bac888 (d72734c62a24ec7a7793c7f794adbfa2e86bdb65e081d21a53e7efe1f7f67926) 
+flow project deploy --network=testnet
+
+FungibleToken -> 0xf57795d53d92760e (6f78857e586b59fbffae2450a3ce76a39e2400af086054e7983783d07d444b72) 
+MyToken -> 0xf57795d53d92760e (0d634ccdf0ed5ac7b61c20263ef12aadb6914b6b36c4c0ef3e9d3a33d0dbe434)  
+
+Go here. Where it says "Account", paste in the Flow address you generated and click "Go". On the left hand side, you should see your NFT contract.
+https://flow-view-source.com/testnet/
+
+
+
+//scripts and transaction
+flow scripts execute ./scripts/read_total_supply.cdc --network=testnet
+flow transactions send ./transactions/setup_collection.cdc --network=testnet --signer=testnet-account
+
+flow transactions send ./transactions/mint_nft.cdc 0xfa88aefbb588049d --network=testnet --signer=testnet-account
+
+
+
+
+
+flow scripts execute ./scripts/CheckVaultSetup.cdc 0xf57795d53d92760e --network=testnet

@@ -1,7 +1,8 @@
 {
 	"contracts": {
 		"MyToken": "./contracts/MyToken.cdc",
-		"FungibleToken": "./contracts/FungibleToken.cdc"
+		"FungibleToken": "./contracts/FungibleToken.cdc",
+		"FlowToken": "./contracts/FlowToken.cdc"
 	  },
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -29,7 +30,8 @@
 		"testnet": {
 		  "testnet-account": [
 			"MyToken",
-            "FungibleToken"
+            "FungibleToken",
+			"FlowToken"
 		  ]
 		}
 	  }

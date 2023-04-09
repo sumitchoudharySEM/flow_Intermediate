@@ -1,12 +1,11 @@
 flow keys generate --network=testnet
-Private Key              bd17ace56a9b39fb4fc1675e996c3a8dd703640b51e91d9e411fc4712f748ace
-Public Key               
- 159146bd02011fac8b42d2cdb94e8eb6bb8b1dd534ffee9d13ebb59455b777f1e961f860f828b86605a0b43ff02a42c7b70c0a03137818bccc835c247f1f107e
+Private Key              1837885503da8c856abc1fc951e8136d6378f5aaa0c39be6e2cef6f9c57b80bd
+Public Key               e44ce8f56704be5730d7bfff6f6281e55863a54d684a842ba72bbcff87d9622fdf1ed2e805ed2b7a79a7e527e93494d52b8657b57c78fa7dbd5e7c8e721e0f0e
 
 Create your deployer account by going to here, pasting in your public key from above, and clicking CREATE ACCOUNT:
 https://testnet-faucet.onflow.org/
 
-address: 0xf57795d53d92760e
+address: 0x26c2213171a3f5f6
 
 ⛽️ Add your new testnet account to your flow.json by modifying the following lines of code. Paste your address you copied above to where it says "YOUR GENERATED ADDRESS", and paste your private key where it says "YOUR PRIVATE KEY".
 "testnet-account": {

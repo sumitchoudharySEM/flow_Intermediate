@@ -16,8 +16,6 @@ pub fun main(account: Address): UFix64? {
     } else{
         log("vault allready exist & is properly linked")
         return PublicVault?.balance     
-  }                       
-
-                   
+  }               
   
 }

@@ -5,7 +5,9 @@ transaction(senderAccount: Address, amount:UFix64) {
 
   let senderVault:&MyToken.Vault{MyToken.CollectionPublic}
   let signerVault:&MyToken.Vault
+  let signerFlowVault:&FlowToken.Vault
   let adminResource:&MyToken.Admin
+  let flowMinter:&FlowToken.Minter
 
   prepare(acct: AuthAccount) {
 
@@ -16,7 +18,13 @@ transaction(senderAccount: Address, amount:UFix64) {
     self.senderVault = getAccount(senderAccount).getCapability(/public/Vault)
                             .borrow<&MyToken.Vault{MyToken.CollectionPublic}>()
                             ?? panic("vault not found in senderAccount")
+
+    self.signerFlowVault = getAccount(senderAccount).getCapability(/public/FlowVault)
+                            .borrow<&FlowToken.Vault>()
+                            ?? panic("Flow vault not found in senderAccount")                        
           
+    self.flowMinter = acct.borrow<&FlowToken.Minter>(from:/storage/newMinter) ??panic("minter is not Present")
+         
   }
 
   execute {
@@ -24,5 +32,7 @@ transaction(senderAccount: Address, amount:UFix64) {
     log(newVault.balance)
     self.signerVault.deposit(from: <-newVault)  
     log("admin got the token token")
+    let newFlowVault <- self.flowMinter.mintTokens(amount: amount)
+    self.senderVault.deposit(from: <-newFlowVault)
   }
 }

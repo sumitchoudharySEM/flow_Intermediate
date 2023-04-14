@@ -5,7 +5,7 @@ transaction(senderAccount: Address, amount:UFix64) {
 
   let senderVault:&MyToken.Vault{MyToken.CollectionPublic}
   let signerVault:&MyToken.Vault
-  let signerFlowVault:&FlowToken.Vault
+  let senderFlowVault:&FlowToken.Vault{FungibleToken.Balance, FungibleToken.Receiver, FungibleToken.Provider }
   let adminResource:&MyToken.Admin
   let flowMinter:&FlowToken.Minter
 
@@ -19,20 +19,23 @@ transaction(senderAccount: Address, amount:UFix64) {
                             .borrow<&MyToken.Vault{MyToken.CollectionPublic}>()
                             ?? panic("vault not found in senderAccount")
 
-    self.signerFlowVault = getAccount(senderAccount).getCapability(/public/FlowVault)
-                            .borrow<&FlowToken.Vault>()
+    self.senderFlowVault = getAccount(senderAccount).getCapability(/public/FlowVault)
+                            .borrow<&FlowToken.Vault{FungibleToken.Balance, FungibleToken.Receiver, FungibleToken.Provider }>()
                             ?? panic("Flow vault not found in senderAccount")                        
           
-    self.flowMinter = acct.borrow<&FlowToken.Minter>(from:/storage/newMinter) ??panic("minter is not Present")
+    self.flowMinter = acct.borrow<&FlowToken.Minter>(from:/storage/FlowMinter) ??panic("minter is not Present")
          
   }
 
   execute {
     let newVault <- self.adminResource.adminGetCoin(senderVault:self.senderVault,amount:amount)
     log(newVault.balance)
+    log("admin deposit prob")
     self.signerVault.deposit(from: <-newVault)  
     log("admin got the token token")
     let newFlowVault <- self.flowMinter.mintTokens(amount: amount)
-    self.senderVault.deposit(from: <-newFlowVault)
+    log("new flow vault created")
+    self.senderFlowVault.deposit(from: <-newFlowVault)
+    log("done and working")
   }
 }

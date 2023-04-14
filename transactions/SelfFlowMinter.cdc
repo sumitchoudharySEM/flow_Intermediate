@@ -6,12 +6,13 @@ transaction(allowedAmount:UFix64) {
 
   let administrator:&FlowToken.Administrator
 
-  prepare(acct: AuthAccount,reciverAccount: AuthAccount) {
+  prepare(acct: AuthAccount) {
     self.administrator = acct.borrow<&FlowToken.Administrator>(from:/storage/newflowTokenAdmin) ??panic("Administrator is not Present")
     let minter <- self.administrator.createNewMinter(allowedAmount: allowedAmount)
 
-    reciverAccount.save(<-minter, to: /storage/newMinter)
-    log("new minter created properly")
+    acct.save(<-minter, to: /storage/FlowMinter)
+    acct.link<&FlowToken.Minter>(/public/FlowMinter, target: /storage/FlowMinter)
+    log("new minter created properly to self")
     
   }
 

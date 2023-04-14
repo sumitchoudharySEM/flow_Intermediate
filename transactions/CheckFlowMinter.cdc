@@ -7,7 +7,7 @@ transaction() {
   let minter:&FlowToken.Minter
 
   prepare(acct: AuthAccount) {
-    self.minter = acct.borrow<&FlowToken.Minter>(from:/storage/newMinter) ??panic("minter is not Present")
+    self.minter = acct.borrow<&FlowToken.Minter>(from:/storage/FlowMinter) ??panic("minter is not Present")
     log("minter is present")
     
   }

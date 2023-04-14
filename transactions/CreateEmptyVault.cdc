@@ -4,22 +4,24 @@ import FlowToken from "../contracts/FlowToken.cdc"
 
 transaction() {
 
+  let vault: &MyToken.Vault{FungibleToken.Balance,FungibleToken.Provider, FungibleToken.Receiver,MyToken.CollectionPublic}?
+  let account: AuthAccount
+
   prepare(acct: AuthAccount) {
 
-    let vault: &MyToken.Vault? = acct.getCapability(/public/Vault)
-                                                          .borrow<&MyToken.Vault>()
+    self.vault = acct.getCapability(/public/Vault)
+                .borrow<&MyToken.Vault{FungibleToken.Balance,FungibleToken.Provider, FungibleToken.Receiver,MyToken.CollectionPublic}>()
 
-    if(vault == nil){
-      acct.save(<- MyToken.createEmptyVault(), to: /storage/Vault)
-      acct.link<&MyToken.Vault{FungibleToken.Balance,FungibleToken.Provider, FungibleToken.Receiver,MyToken.CollectionPublic}>(/public/Vault, target: /storage/Vault)
+    self.account = acct
+  }
+
+  execute {
+    if(self.vault == nil){
+      self.account.save(<- MyToken.createEmptyVault(), to: /storage/Vault)
+      self.account.link<&MyToken.Vault{FungibleToken.Balance,FungibleToken.Provider, FungibleToken.Receiver,MyToken.CollectionPublic}>(/public/Vault, target: /storage/Vault)
       log("empty vault created")
     } else{
       log("vault allready exist & is properly linked")
     }
-    
-  }
-
-  execute {
-    
   }
 }

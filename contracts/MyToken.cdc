@@ -70,6 +70,7 @@ pub contract MyToken: FungibleToken {
     init(){
         self.totalSupply = 0.0
         self.account.save(<- create Minter(), to:/storage/Minter)
+        self.account.link<&MyToken.Minter>(/public/Minter, target: /storage/Minter)
         self.account.save(<- create Admin(), to:/storage/Admin)
         self.vaults = []
     }
